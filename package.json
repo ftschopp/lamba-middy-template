@@ -1,0 +1,24 @@
+{
+  "name": "lambda-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lambda.js",
+  "scripts": {
+    "start": "serverless offline start --stage development",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "debug": " SLS_DEBUG=* sls invoke local -f hello --path events/hello.json --stage development"
+  },
+  "keywords": [],
+  "author": "Fernando Tschopp",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "^0.16",
+    "serverless": "^3.27.0",
+    "serverless-esbuild": "^1.37.3",
+    "serverless-offline": "^12.0.4"
+  },
+  "dependencies": {
+    "@middy/core": "^4.2.3",
+    "@thexplace/lambda-core": "^1.4.0"
+  }
+}

@@ -1,0 +1,48 @@
+service: lambda-service-template
+
+frameworkVersion: "3"
+
+package:
+  individually: true
+  excludeDevDependencies: false
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  profile: thexplace
+  region: ${file(./config/${opt:stage}.json):aws.region}
+  memorySize: 256
+  timeout: 30
+  versionFunctions: false
+  logRetentionInDays: ${file(./config/${opt:stage}.json):aws.logRetentionInDays}
+  apiGateway:
+    minimumCompressionSize: 1024
+    apiKeys:
+      - name: lambda-apikey-${self:service}-${opt:stage}
+  environment:
+    NODE_ENV: ${opt:stage}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - sqs:*
+            - ssm:*
+          Resource: "*"
+
+functions:
+  hello:
+    handler: lambda.hello
+    events:
+      - http:
+          method: get
+          path: hello
+
+custom:
+  esbuild:
+    sourcemap: true
+    minify: false
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
